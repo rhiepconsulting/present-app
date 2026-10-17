@@ -6,13 +6,13 @@
 export const SURPRISE_CONFIG = {
   // 写真の参照先（3枚構成：上部横長1枚 + 下部縦長2枚）
   photos: [
-    '/images/reveal-photo.jpg',    // 写真①（横長：両親の手元とエコー写真）
-    '/images/reveal-photo-2.jpg',  // 写真②（縦長：エコー写真）
-    '/images/reveal-photo-3.jpg',  // 写真③（縦長：エコー写真）
+    '/images/reveal-photo-1.jpg',  // 写真①（横長：IMG_1034）
+    '/images/reveal-photo-2.jpg',  // 写真②（縦長：IMG_0952）
+    '/images/reveal-photo-3.jpg',  // 写真③（縦長：IMG_0860）
   ],
 
   // 従来の単一指定との互換用
-  photoUrl: '/images/reveal-photo.jpg',
+  photoUrl: '/images/reveal-photo-1.jpg',
 
   // 2枚目のスクラッチ結果・最終画面の予定日
   dueDate: '2027.5.14',

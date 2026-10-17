@@ -11,6 +11,7 @@ import { GiftBoxView } from './components/GiftBoxView';
 import { RevealExperience } from './components/RevealExperience';
 import { audioManager } from './utils/audio';
 import { SURPRISE_CONFIG } from './config';
+import { PWAInstallButton } from './components/PWAInstallButton';
 
 const CARDS_DATA: [LotteryCardData, LotteryCardData] = [
   {
@@ -137,6 +138,11 @@ export default function App() {
 
       {/* モバイルファーストのフレーム制約（スマートフォン幅に最適化、PCでも美しくプレビュー） */}
       <main className="relative w-full max-w-md min-h-screen bg-[#faf8f5] shadow-2xl flex flex-col">
+        {/* PWAアプリ化・ホーム画面追加ボタン（インストール済みの場合は非表示） */}
+        <div className="absolute top-3 right-3 z-30 pointer-events-auto">
+          <PWAInstallButton variant="pill" />
+        </div>
+
         {step === 'INTRO' && <IntroView onStart={handleStart} />}
 
         {step === 'ENVELOPE' && <EnvelopeView onOpened={handleEnvelopeOpened} />}
