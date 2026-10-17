@@ -132,12 +132,12 @@ export default function App() {
   const currentResultValue = isScratchingFirst ? '①' : SURPRISE_CONFIG.dueDate;
 
   return (
-    <div className="relative min-h-screen w-full bg-[#eee9df] flex justify-center overflow-x-hidden font-mincho">
+    <div className="relative h-[100dvh] max-h-[100dvh] w-full bg-[#eee9df] flex justify-center overflow-hidden font-mincho">
       {/* 画面回転ガード（スマートフォン横向き時に縦画面へ促す） */}
       <OrientationGuard />
 
-      {/* モバイルファーストのフレーム制約（スマートフォン幅に最適化、PCでも美しくプレビュー） */}
-      <main className="relative w-full max-w-md min-h-screen bg-[#faf8f5] shadow-2xl flex flex-col">
+      {/* モバイルファーストのフレーム制約（スマートフォン全画面に最適化・縦スクロール不要） */}
+      <main className="relative w-full max-w-md h-full max-h-[100dvh] bg-[#faf8f5] shadow-2xl flex flex-col overflow-hidden">
         {/* PWAアプリ化・ホーム画面追加ボタン（インストール済みの場合は非表示） */}
         <div className="absolute top-3 right-3 z-30 pointer-events-auto">
           <PWAInstallButton variant="pill" />

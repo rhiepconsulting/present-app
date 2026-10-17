@@ -44,7 +44,7 @@ export const CardsSelectionView: React.FC<CardsSelectionViewProps> = ({
   return (
     <div
       id="cards-selection-view"
-      className="relative flex min-h-screen w-full flex-col items-center justify-between overflow-hidden bg-ivory-paper px-6 py-12"
+      className="relative flex h-full w-full flex-col items-center justify-between overflow-hidden bg-ivory-paper px-5 py-5 sm:py-7"
     >
       {/* 背景の装飾幾何学枠 */}
       <div className="pointer-events-none absolute inset-4 rounded-xl border border-[#d4af37]/25" />
@@ -55,7 +55,7 @@ export const CardsSelectionView: React.FC<CardsSelectionViewProps> = ({
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="flex flex-col items-center pt-4"
+        className="flex flex-col items-center pt-2"
       >
         <div className="h-[1px] w-10 bg-[#c59b27]" />
         <span className="font-cinzel mt-1.5 text-[9px] tracking-[0.3em] text-[#8e7e61]">
@@ -64,13 +64,13 @@ export const CardsSelectionView: React.FC<CardsSelectionViewProps> = ({
       </motion.div>
 
       {/* ガイドメッセージ */}
-      <div className="my-3 min-h-[32px] flex items-center justify-center text-center">
+      <div className="my-2 min-h-[28px] flex items-center justify-center text-center">
         {showPrompt && (
           <motion.p
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="font-mincho text-base font-medium tracking-[0.18em] text-[#342e27] sm:text-lg"
+            className="font-mincho text-sm font-medium tracking-[0.18em] text-[#342e27] sm:text-base"
           >
             {hasFirstResult
               ? 'もう一枚、削ってみよう'
@@ -80,7 +80,7 @@ export const CardsSelectionView: React.FC<CardsSelectionViewProps> = ({
       </div>
 
       {/* 2枚のカードを上下に縦配置 */}
-      <div className="flex w-full flex-col items-center gap-6 my-auto max-w-sm">
+      <div className="flex w-full flex-col items-center gap-3.5 sm:gap-4 my-auto max-w-sm">
         {cards.map((card, idx) => {
           const isCompleted = card.id === '01' ? Boolean(card1Result) : Boolean(card2Result);
           const resultVal = card.id === '01' ? card1Result : card2Result;

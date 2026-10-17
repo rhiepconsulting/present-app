@@ -53,7 +53,7 @@ export const EnvelopeView: React.FC<EnvelopeViewProps> = ({ onOpened }) => {
   return (
     <div
       id="envelope-view-container"
-      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-ivory-paper px-6"
+      className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-ivory-paper px-6 py-4"
     >
       {/* 画面全体のゴールド光の広がり (開始時) */}
       {phase === 'FLASH' && (

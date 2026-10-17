@@ -25,11 +25,15 @@ export const GiftBoxView: React.FC<GiftBoxViewProps> = ({ onOpen }) => {
   // 箱のDOM参照（ドロップ判定用）
   const boxRef = useRef<HTMLDivElement>(null);
 
-  // 箱に入ったかどうかの判定処理（モバイルで入れやすいよう、箱の周囲に少しゆとりを持たせた当たり判定）
+  // モバイル端末でのネイティブタッチスワイプ検出用
+  const blueTouchStartY = useRef<number | null>(null);
+  const redTouchStartY = useRef<number | null>(null);
+
+  // 箱に入ったかどうかの判定処理（当たり判定を大幅に広げ、スワイプでも確実に入るように設定）
   const isInsideBoxArea = (x: number, y: number) => {
     if (!boxRef.current) return false;
     const rect = boxRef.current.getBoundingClientRect();
-    const buffer = 50;
+    const buffer = 80;
     return (
       x >= rect.left - buffer &&
       x <= rect.right + buffer &&
@@ -95,33 +99,33 @@ export const GiftBoxView: React.FC<GiftBoxViewProps> = ({ onOpen }) => {
   return (
     <div
       id="gift-box-view-container"
-      className="relative flex min-h-screen w-full flex-col items-center justify-between overflow-hidden bg-gradient-to-b from-[#fdfcf9] via-[#fbf8f2] to-[#f5eee2] px-6 py-10 select-none text-[#2c241c]"
+      className="relative flex h-full w-full flex-col items-center justify-between overflow-hidden bg-gradient-to-b from-[#fdfcf9] via-[#fbf8f2] to-[#f5eee2] px-4 py-4 sm:py-6 select-none text-[#2c241c] touch-none"
     >
       {/* 幻想的な背景の光彩オーラ */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(247,230,181,0.5)_0%,rgba(251,248,242,0.85)_70%)]" />
 
       {/* 装飾ゴールドフレーム */}
-      <div className="pointer-events-none absolute inset-4 rounded-2xl border border-[#d4af37]/30" />
-      <div className="pointer-events-none absolute inset-6 rounded-xl border border-[#d4af37]/15" />
+      <div className="pointer-events-none absolute inset-3 sm:inset-4 rounded-2xl border border-[#d4af37]/30" />
+      <div className="pointer-events-none absolute inset-5 sm:inset-6 rounded-xl border border-[#d4af37]/15" />
 
       {/* ─── 上部テキストエリア ─── */}
       <motion.div
-        initial={{ opacity: 0, y: -12 }}
+        initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, ease: 'easeOut' }}
-        className="relative z-20 pt-4 text-center max-w-xs"
+        className="relative z-20 pt-2 text-center max-w-xs"
       >
-        <div className="h-[1px] w-12 mx-auto mb-3 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent" />
+        <div className="h-[1px] w-12 mx-auto mb-2 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent" />
 
         {/* 指定文言①：答えは、この中に入っています。 */}
-        <p className="font-mincho text-xl font-normal leading-relaxed tracking-[0.18em] text-[#2c241c] sm:text-2xl drop-shadow-[0_1px_3px_rgba(255,255,255,0.9)]">
+        <p className="font-mincho text-lg font-normal leading-relaxed tracking-[0.18em] text-[#2c241c] sm:text-xl drop-shadow-[0_1px_3px_rgba(255,255,255,0.9)]">
           答えは、この中に
           <br />
           入っています。
         </p>
 
         {/* 指定文言②：青と赤のボールを、箱の中に入れてみてね。 */}
-        <p className="font-mincho mt-3 text-sm font-normal tracking-[0.14em] text-[#786754] sm:text-base leading-relaxed">
+        <p className="font-mincho mt-1.5 text-xs font-normal tracking-[0.14em] text-[#786754] sm:text-sm leading-relaxed">
           青と赤のボールを、
           <br />
           箱の中に入れてみてね。
@@ -129,7 +133,7 @@ export const GiftBoxView: React.FC<GiftBoxViewProps> = ({ onOpen }) => {
       </motion.div>
 
       {/* ─── 中央エリア：プレゼントボックス ─── */}
-      <div className="relative z-20 my-auto flex w-full flex-col items-center justify-center">
+      <div className="relative z-20 my-auto flex w-full flex-col items-center justify-center py-1">
         {/* 箱の後ろの柔らかい祝福光輪 */}
         <motion.div
           animate={{
@@ -137,7 +141,7 @@ export const GiftBoxView: React.FC<GiftBoxViewProps> = ({ onOpen }) => {
             opacity: bothIn ? [0.4, 0.75, 0.5] : [0.3, 0.45, 0.3],
           }}
           transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-          className="pointer-events-none absolute h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(247,215,120,0.55)_0%,transparent_70%)] blur-lg"
+          className="pointer-events-none absolute h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(247,215,120,0.55)_0%,transparent_70%)] blur-lg"
         />
 
         {/* プレゼントボックス本体 */}
@@ -164,7 +168,7 @@ export const GiftBoxView: React.FC<GiftBoxViewProps> = ({ onOpen }) => {
               ? { duration: 0.85, ease: 'easeInOut' }
               : { duration: 3.5, repeat: Infinity, ease: 'easeInOut' }
           }
-          className="relative flex h-44 w-44 sm:h-48 sm:w-48 flex-col items-center justify-center rounded-2xl border-2 border-[#d4af37]/80 bg-gradient-to-br from-[#ffffff] via-[#fdfbf6] to-[#f5ebd6] p-2 shadow-[0_20px_45px_rgba(180,140,50,0.25)]"
+          className="relative flex h-36 w-36 sm:h-44 sm:w-44 flex-col items-center justify-center rounded-2xl border-2 border-[#d4af37]/80 bg-gradient-to-br from-[#ffffff] via-[#fdfbf6] to-[#f5ebd6] p-2 shadow-[0_16px_36px_rgba(180,140,50,0.22)]"
         >
           {/* 四隅のゴールドコーナー飾り */}
           <div className="pointer-events-none absolute top-1.5 left-1.5 h-3.5 w-3.5 border-t-2 border-l-2 border-[#d4af37]" />
@@ -180,14 +184,14 @@ export const GiftBoxView: React.FC<GiftBoxViewProps> = ({ onOpen }) => {
                 : { y: 0 }
             }
             transition={{ duration: 0.5 }}
-            className="pointer-events-none absolute top-0 left-0 right-0 h-10 rounded-t-2xl border-b border-[#d4af37]/60 bg-gradient-to-b from-white/90 to-[#faeed2]/60 shadow-[0_3px_8px_rgba(180,140,50,0.12)]"
+            className="pointer-events-none absolute top-0 left-0 right-0 h-9 rounded-t-2xl border-b border-[#d4af37]/60 bg-gradient-to-b from-white/90 to-[#faeed2]/60 shadow-[0_3px_8px_rgba(180,140,50,0.12)]"
           />
 
           {/* リボン（縦） */}
-          <div className="pointer-events-none absolute top-0 bottom-0 w-7 bg-gradient-to-r from-[#aa771c] via-[#ecd997] to-[#8c6710] shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
+          <div className="pointer-events-none absolute top-0 bottom-0 w-6 sm:w-7 bg-gradient-to-r from-[#aa771c] via-[#ecd997] to-[#8c6710] shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
 
           {/* リボン（横） */}
-          <div className="pointer-events-none absolute left-0 right-0 h-7 bg-gradient-to-b from-[#aa771c] via-[#ecd997] to-[#8c6710] shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
+          <div className="pointer-events-none absolute left-0 right-0 h-6 sm:h-7 bg-gradient-to-b from-[#aa771c] via-[#ecd997] to-[#8c6710] shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
 
           {/* 立体的な金色のリボン結び（リボンボウ） */}
           <motion.div
@@ -197,15 +201,15 @@ export const GiftBoxView: React.FC<GiftBoxViewProps> = ({ onOpen }) => {
                 : { scale: [1, 1.05, 1] }
             }
             transition={{ duration: 2.5, repeat: isOpening ? 0 : Infinity, ease: 'easeInOut' }}
-            className="pointer-events-none absolute -top-5 z-30 flex items-center justify-center"
+            className="pointer-events-none absolute -top-4 sm:-top-5 z-30 flex items-center justify-center"
           >
             <div className="relative flex items-center justify-center">
               {/* 左ループ */}
-              <div className="h-6 w-9 -rotate-25 rounded-full border border-[#fbf3d3] bg-gradient-to-br from-[#ffe79a] via-[#cfa031] to-[#8f6814] shadow-md" />
+              <div className="h-5 w-8 sm:h-6 sm:w-9 -rotate-25 rounded-full border border-[#fbf3d3] bg-gradient-to-br from-[#ffe79a] via-[#cfa031] to-[#8f6814] shadow-md" />
               {/* 右ループ */}
-              <div className="h-6 w-9 rotate-25 rounded-full border border-[#fbf3d3] bg-gradient-to-bl from-[#ffe79a] via-[#cfa031] to-[#8f6814] shadow-md -ml-2" />
+              <div className="h-5 w-8 sm:h-6 sm:w-9 rotate-25 rounded-full border border-[#fbf3d3] bg-gradient-to-bl from-[#ffe79a] via-[#cfa031] to-[#8f6814] shadow-md -ml-2" />
               {/* 中央結び目 */}
-              <div className="absolute h-5 w-5 rounded-full border border-[#fff2c6] bg-gradient-to-br from-[#ffd977] to-[#996f12] shadow-inner" />
+              <div className="absolute h-4 w-4 sm:h-5 sm:w-5 rounded-full border border-[#fff2c6] bg-gradient-to-br from-[#ffd977] to-[#996f12] shadow-inner" />
             </div>
           </motion.div>
 
@@ -249,7 +253,7 @@ export const GiftBoxView: React.FC<GiftBoxViewProps> = ({ onOpen }) => {
       </div>
 
       {/* ─── 下部エリア：青・赤のボール操作 ＆ 開けるボタン ─── */}
-      <div className="relative z-30 flex min-h-[170px] w-full flex-col items-center justify-end pb-2">
+      <div className="relative z-30 flex min-h-[140px] sm:min-h-[160px] w-full flex-col items-center justify-end pb-2">
         <AnimatePresence mode="wait">
           {/* 2つ揃って箱の揺れが終わったら「開ける」ボタンを表示 */}
           {showOpenButton ? (
@@ -278,26 +282,45 @@ export const GiftBoxView: React.FC<GiftBoxViewProps> = ({ onOpen }) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="flex flex-col items-center gap-3 w-full"
+              className="flex flex-col items-center gap-2 sm:gap-3 w-full"
             >
-              {/* スワイプ誘導テキスト */}
-              <p className="font-mincho text-xs text-[#8c7e6c] tracking-widest">
-                指でボールを箱の中へスワイプ
-              </p>
+              {/* スワイプ誘導テキスト（視覚的な上向きアニメーション付き） */}
+              <div className="flex items-center gap-1.5 font-mincho text-xs text-[#7e6e5a] tracking-widest">
+                <span className="text-[#c59b27] text-sm animate-bounce">▲</span>
+                <span>上へスワイプまたはタップで箱へ</span>
+              </div>
 
               {/* 2つのボールコンテナ */}
-              <div className="flex items-center justify-center gap-10 sm:gap-12 py-2">
+              <div className="flex items-center justify-center gap-10 sm:gap-12 py-1">
                 {/* ── 青いボール ── */}
                 <div className="relative flex flex-col items-center">
                   {!blueIn ? (
                     <motion.div
                       drag={!blueEntering}
                       dragSnapToOrigin={!blueEntering}
-                      dragElastic={0.25}
-                      whileDrag={{ scale: 1.18, zIndex: 50 }}
+                      dragElastic={0.3}
+                      whileDrag={{ scale: 1.22, zIndex: 50 }}
                       onDragEnd={(_e, info) => {
-                        if (isInsideBoxArea(info.point.x, info.point.y)) {
+                        // 上へ30px以上ドラッグ、または上へ弾く（スワイプ）、または箱の周辺に運んだら確実に投入
+                        if (
+                          info.offset.y < -30 ||
+                          info.velocity.y < -80 ||
+                          isInsideBoxArea(info.point.x, info.point.y)
+                        ) {
                           putBlueBall();
+                        }
+                      }}
+                      onTouchStart={(e) => {
+                        blueTouchStartY.current = e.touches[0].clientY;
+                      }}
+                      onTouchEnd={(e) => {
+                        if (blueTouchStartY.current !== null) {
+                          const diff = blueTouchStartY.current - e.changedTouches[0].clientY;
+                          // 上方向へ25px以上スワイプされたら投入
+                          if (diff > 25) {
+                            putBlueBall();
+                          }
+                          blueTouchStartY.current = null;
                         }
                       }}
                       onClick={putBlueBall}
@@ -305,7 +328,7 @@ export const GiftBoxView: React.FC<GiftBoxViewProps> = ({ onOpen }) => {
                         blueEntering
                           ? {
                               scale: [1, 0.4, 0],
-                              y: [-8, -130],
+                              y: [-8, -140],
                               opacity: [1, 0.8, 0],
                             }
                           : {
@@ -317,7 +340,7 @@ export const GiftBoxView: React.FC<GiftBoxViewProps> = ({ onOpen }) => {
                           ? { duration: 0.45, ease: 'easeIn' }
                           : { duration: 2.2, repeat: Infinity, ease: 'easeInOut' }
                       }
-                      className="touch-none relative flex h-16 w-16 cursor-grab active:cursor-grabbing items-center justify-center rounded-full shadow-[0_8px_20px_rgba(43,101,217,0.38)]"
+                      className="touch-none relative flex h-16 w-16 cursor-grab active:cursor-grabbing items-center justify-center rounded-full shadow-[0_8px_20px_rgba(43,101,217,0.38)] active:scale-95 transition-transform"
                       style={{
                         background: 'radial-gradient(circle at 35% 32%, #b5d5ff 0%, #4686f0 45%, #1848a0 100%)',
                       }}
@@ -342,11 +365,29 @@ export const GiftBoxView: React.FC<GiftBoxViewProps> = ({ onOpen }) => {
                     <motion.div
                       drag={!redEntering}
                       dragSnapToOrigin={!redEntering}
-                      dragElastic={0.25}
-                      whileDrag={{ scale: 1.18, zIndex: 50 }}
+                      dragElastic={0.3}
+                      whileDrag={{ scale: 1.22, zIndex: 50 }}
                       onDragEnd={(_e, info) => {
-                        if (isInsideBoxArea(info.point.x, info.point.y)) {
+                        // 上へ30px以上ドラッグ、または上へ弾く（スワイプ）、または箱の周辺に運んだら確実に投入
+                        if (
+                          info.offset.y < -30 ||
+                          info.velocity.y < -80 ||
+                          isInsideBoxArea(info.point.x, info.point.y)
+                        ) {
                           putRedBall();
+                        }
+                      }}
+                      onTouchStart={(e) => {
+                        redTouchStartY.current = e.touches[0].clientY;
+                      }}
+                      onTouchEnd={(e) => {
+                        if (redTouchStartY.current !== null) {
+                          const diff = redTouchStartY.current - e.changedTouches[0].clientY;
+                          // 上方向へ25px以上スワイプされたら投入
+                          if (diff > 25) {
+                            putRedBall();
+                          }
+                          redTouchStartY.current = null;
                         }
                       }}
                       onClick={putRedBall}
@@ -354,7 +395,7 @@ export const GiftBoxView: React.FC<GiftBoxViewProps> = ({ onOpen }) => {
                         redEntering
                           ? {
                               scale: [1, 0.4, 0],
-                              y: [-8, -130],
+                              y: [-8, -140],
                               opacity: [1, 0.8, 0],
                             }
                           : {
@@ -366,7 +407,7 @@ export const GiftBoxView: React.FC<GiftBoxViewProps> = ({ onOpen }) => {
                           ? { duration: 0.45, ease: 'easeIn' }
                           : { duration: 2.2, delay: 0.3, repeat: Infinity, ease: 'easeInOut' }
                       }
-                      className="touch-none relative flex h-16 w-16 cursor-grab active:cursor-grabbing items-center justify-center rounded-full shadow-[0_8px_20px_rgba(217,54,79,0.38)]"
+                      className="touch-none relative flex h-16 w-16 cursor-grab active:cursor-grabbing items-center justify-center rounded-full shadow-[0_8px_20px_rgba(217,54,79,0.38)] active:scale-95 transition-transform"
                       style={{
                         background: 'radial-gradient(circle at 35% 32%, #ffb8c3 0%, #eb465f 45%, #a6152b 100%)',
                       }}

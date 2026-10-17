@@ -25,7 +25,7 @@ export const ResultsGatherView: React.FC<ResultsGatherViewProps> = ({ onNext }) 
   return (
     <div
       id="results-gather-view"
-      className="relative flex min-h-screen w-full flex-col items-center justify-between overflow-hidden bg-ivory-paper px-6 py-14 text-center text-[#2d251a]"
+      className="relative flex h-full w-full flex-col items-center justify-between overflow-hidden bg-ivory-paper px-6 py-5 sm:py-7 text-center text-[#2d251a]"
     >
       {/* 繊細な中央スポットライト */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(247,230,181,0.45)_0%,transparent_65%)]" />

@@ -17,7 +17,7 @@ export const RiddleView: React.FC<RiddleViewProps> = ({ onAnswer }) => {
   return (
     <div
       id="riddle-view-container"
-      className="relative flex min-h-screen w-full flex-col items-center justify-between overflow-hidden bg-ivory-paper px-6 py-14 text-center text-[#2d251d]"
+      className="relative flex h-full w-full flex-col items-center justify-between overflow-hidden bg-ivory-paper px-6 py-5 sm:py-7 text-center text-[#2d251d]"
     >
       {/* 宝くじ世界観の控えめなゴールドスポットライト（ぼかしは除去） */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_48%,rgba(247,230,181,0.45)_0%,transparent_60%)]" />
@@ -31,7 +31,7 @@ export const RiddleView: React.FC<RiddleViewProps> = ({ onAnswer }) => {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, ease: 'easeOut' }}
-        className="pt-6"
+        className="pt-2"
       >
         <div className="font-mincho text-lg font-normal leading-relaxed tracking-[0.16em] text-[#2d251d] sm:text-xl space-y-1">
           <p>さて、なぞなぞです。</p>

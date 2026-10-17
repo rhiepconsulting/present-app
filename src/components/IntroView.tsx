@@ -39,7 +39,7 @@ export const IntroView: React.FC<IntroViewProps> = ({ onStart }) => {
   return (
     <div
       id="intro-view-container"
-      className="relative flex min-h-screen w-full flex-col items-center justify-between overflow-hidden bg-ivory-paper px-8 py-14 text-[#2b2723]"
+      className="relative flex h-full w-full flex-col items-center justify-between overflow-hidden bg-ivory-paper px-6 py-6 sm:py-8 text-[#2b2723]"
     >
       {/* 控えめなゴールドの幾何学ライン＆フレーム */}
       <div className="pointer-events-none absolute inset-4 rounded-xl border border-[#d4af37]/35" />
