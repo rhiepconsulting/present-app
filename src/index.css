@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
+    background-color: #f7f5ef;
+    color: #2c2722;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.font-mincho {
+  font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
+}
+
+.font-garamond {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* 高級な紙のテクスチャ表現 */
+.bg-ivory-paper {
+  background-color: #fbf9f4;
+  background-image: radial-gradient(#e7ded0 0.75px, transparent 0.75px), radial-gradient(#e7ded0 0.75px, #fbf9f4 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+/* ゴールド箔押し風の光彩 */
+.gold-foil-text {
+  background: linear-gradient(135deg, #f7e6b5 0%, #d4af37 40%, #aa771c 70%, #f7e6b5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-foil-border {
+  border-image: linear-gradient(135deg, #ecd599, #c59b27, #856113, #e6c875) 1;
+}
+
+/* カードの周囲を巡る繊細な光のアニメーション */
+@keyframes borderGlow {
+  0% {
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.25), inset 0 0 6px rgba(212, 175, 55, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(212, 175, 55, 0.6), inset 0 0 12px rgba(212, 175, 55, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.25), inset 0 0 6px rgba(212, 175, 55, 0.15);
+  }
+}
+
+.card-glow-pulse {
+  animation: borderGlow 3.5s ease-in-out infinite;
+}
+
+/* ボタンのゴールド光の走り */
+@keyframes sheenSweep {
+  0% {
+    transform: translateX(-150%) skewX(-25deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-25deg);
+  }
+}
+
+.animate-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-sheen::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 245, 210, 0.45), transparent);
+  animation: sheenSweep 4s ease-in-out infinite;
+  pointer-events: none;
+}
+

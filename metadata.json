@@ -1,0 +1,6 @@
+{
+  "name": "HAPPY CARD - SPECIAL LOTTERY",
+  "description": "日頃の感謝を込めて、特別な運試しスクラッチをお届けします。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
